@@ -2,7 +2,7 @@
 
 **Scriptify** is a web application built with Flask that allows users to generate PDFs from handwritten text. The application is designed to be simple and intuitive, providing a smooth experience across both mobile and desktop devices.
 
-<img src="Scriptify/static/css/images/logo.png" alt="Scriptify Logo" style="width: 150px; height: auto;"/>
+<img src="static/css/images/logo.png" alt="Scriptify Logo" style="width: 150px; height: auto;"/>
 
 ## Features
 
