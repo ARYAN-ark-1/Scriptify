@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scriptify</title>
+    <link rel="stylesheet" href='static/css/style.css'>
+    <script src="https://kit.fontawesome.com/0ed78f639e.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="header">
+        <div class="container">
+            <nav>
+                <img src="static/css/images/logo.png" alt="logo" class="logo">
+                <ul id="sidemenu">
+                    <li><a href="#form-container" onclick="toggleForm()">Generate</a></li>
+                    <i class="fa-solid fa-xmark" onclick="closemenu()"></i>
+                </ul>
+                <i class="fa-solid fa-bars" onclick="openmenu()"></i>
+            </nav>
+            <div class="header-text">
+                <p>Developer</p>
+                <h1>Hi, I'm <span>Aryan</span><br> From India</h1>
+            </div>
+        </div>
+        <div id="form-container" class="form-container">
+            <h2>Generate Handwritten Assignment</h2>
+            <form id="generate-form" action="/generate" method="post" target="previewFrame">
+                <div id="questions-container">
+                    <div class="question-input">
+                        <label for="question1">Enter your question:</label>
+                        <input type="text" name="questions" id="question1" required>
+                    </div>
+                </div>
+                <button type="button" onclick="addQuestion()">Add Another Question</button>
+                <button type="submit">Generate Assignment</button>
+            </form>
+            <br>
+            <iframe name="previewFrame" class="previewFrame"></iframe>
+            <br>
+            <a href="javascript:downloadPDF()" id="downloadLink" style="display: none;">Download PDF</a>
+        </div>
+    </div>
+
+    <div class="copyright">
+        <p>Copyright © Aryan. Made with <i class="fa-solid fa-heart"></i> by Aryan </p>
+    </div>
+
+    <script>
+        var sidemenu = document.getElementById("sidemenu");
+
+        function openmenu() {
+            sidemenu.style.right = "0";
+        }
+
+        function closemenu() {
+            sidemenu.style.right = "-200px";
+        }
+
+        function toggleForm() {
+            const formContainer = document.getElementById('form-container');
+            var sidemenu = document.getElementById("sidemenu");
+            if (formContainer.classList.contains('show')) {
+                formContainer.classList.remove('show');
+                sidemenu.style.right = "-200px";
+                setTimeout(() => {
+                    formContainer.style.display = 'none';
+                }, 500);
+            } else {
+                formContainer.style.display = 'block';
+                sidemenu.style.right = "-200px";
+                setTimeout(() => {
+                    formContainer.classList.add('show');
+                    formContainer.scrollIntoView({ behavior: 'smooth' });
+                }, 10);
+            }
+        }
+
+        function addQuestion() {
+            const container = document.getElementById('questions-container');
+            const div = document.createElement('div');
+            div.classList.add('question-input');
+            const questionCount = container.getElementsByClassName('question-input').length + 1;
+            div.innerHTML = `
+            <label for="question${questionCount}">Enter your question:</label>
+            <input type="text" name="questions" id="question${questionCount}" required>
+            `;
+            container.appendChild(div);
+            // Scroll to the newly added question
+            div.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function setTargetBasedOnScreenSize() {
+            const form = document.getElementById('generate-form');
+            const pf = document.getElementsByClassName('previewFrame');
+            const formContainer = document.getElementById('form-container');
+            if (window.innerWidth < 600) {
+                // pf.style.display = 'none';
+                formContainer.style.height = 'fit-content';
+                form.target = '_blank'; // Open PDF in a new tab on mobile view
+            } else {
+                formContainer.style.height = 'fit-content';
+                // pf.style.display = 'none';
+                form.target = 'previewFrame'; // Use iframe on desktop view
+            }
+        }
+
+        // Set target initially and on resize
+        window.addEventListener('load', setTargetBasedOnScreenSize);
+        window.addEventListener('resize', setTargetBasedOnScreenSize);
+    </script>
+</body>
+
+</html>
